@@ -1,0 +1,78 @@
+<div class="container-fluid">
+  <div class="container">
+    <div class="card mt-5 mb-3">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img
+            [src]="product?.image"
+            class="img-fluid rounded-start p-4 h-50 mx-4 border mb-3 mt-5"
+            alt="img"
+          />
+          <button
+            class="btn btn-lg btn-warning text-white mx-4 mb-2"
+            (click)="onSendData(product)"
+          >
+            <fa-icon [icon]="cart" class="mx-1"></fa-icon> ADD TO CART
+          </button>
+          <button class="btn btn-lg btn-warning text-white mb-2">
+            <fa-icon [icon]="light" class="mx-1"></fa-icon> BUY NOW
+          </button>
+        </div>
+        <div class="col-md-8 p-3">
+          <div class="card-body">
+            <h3 class="h3 card-title mt-3">{{ product?.name }}</h3>
+            <p class="card-text">
+              {{ product?.description }}
+            </p>
+            <h5 class="text-success">Special Price</h5>
+            <h3>&#8377; {{ product?.price }}</h3>
+            <h5 class="h5 text-success">Category</h5>
+            <h6 class="h6 text-dark">{{ product?.category }}</h6>
+            <span class="fw-bold mt-1">Available offers</span>
+            <p class="mt-2">
+              Bank Offer5% Cashback on Flipkart Axis Bank CardT&C
+            </p>
+            <p>Bank Offer5% Cashback on Flipkart Axis Bank CardT&C</p>
+            <p>Bank Offer5% Cashback on Flipkart Axis Bank CardT&C</p>
+            <p>Bank Offer5% Cashback on Flipkart Axis Bank CardT&C</p>
+            <p>Bank Offer5% Cashback on Flipkart Axis Bank CardT&C</p>
+            <div class="card">
+              <div class="card-header">
+                <h6 class="mt-3">Specifications</h6>
+              </div>
+              <div class="card-body">
+                <div class="d-flex flex-row">
+                  <div class="col-lg-2">
+                    <span> Sales Package :</span>
+                  </div>
+                  <div class="col-lg-10">
+                    {{ product?.description }}
+                  </div>
+                </div>
+                <hr />
+                <div class="d-flex flex-row">
+                  <div class="col-lg-2">
+                    <span> Sales Package :</span>
+                  </div>
+                  <div class="col-lg-10">
+                    {{ product?.description }}
+                  </div>
+                </div>
+                <hr />
+                <div class="d-flex flex-row">
+                  <div class="col-lg-2">
+                    <span> Sales Package :</span>
+                  </div>
+                  <div class="col-lg-10">
+                    {{ product?.description }}
+                  </div>
+                </div>
+                <hr />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

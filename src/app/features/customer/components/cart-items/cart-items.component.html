@@ -1,0 +1,283 @@
+<div class="container-fluid">
+  <div class="row p-3">
+    <div class="col-lg-9">
+      <div *ngIf="!product?.length" class="card mt-4">
+        <div class="card-header">
+          <h1 class="h1 text-center fw-bold p-2 text-danger">My Carts Items</h1>
+        </div>
+        <div class="card-body d-flex flex-column justify-content-center">
+          <div class="mx-auto">
+            <img src="assets/images/noCartItem.jpg" alt="img" height="400px" />
+          </div>
+          <div class="mx-auto">
+            <h4 class="fw-bold">Your Cart is empty!</h4>
+            <h6 class="text-center fw-bold">Add item to it now</h6>
+            <div style="margin-left: 80px">
+              <a class="btn btn-lg btn-primary" (click)="gotoAllProduct()">
+                <fa-icon [icon]="add"></fa-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="product?.length" class="card mt-4">
+        <div class="card-header">
+          <h1 class="h1 text-center fw-bold p-2 text-danger">My Carts Items</h1>
+        </div>
+        <div class="card-body">
+          <table class="table table-striped border">
+            <thead class="table table-dark">
+              <tr>
+                <th *ngFor="let header of tblHeader">
+                  {{ header }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cartPro of product; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <img
+                    [src]="cartPro?.products?.image"
+                    alt="img"
+                    height="80px"
+                  />
+                </td>
+                <td>{{ cartPro?.products?.name }}</td>
+                <td>
+                  {{ cartPro?.products?.price | currency : "INR" : "symbol" }}
+                </td>
+                <td class="w-25">{{ cartPro?.products?.description }}</td>
+                <td>{{ cartPro?.products?.category }}</td>
+                <td>{{ cartPro?.products?.brand }}</td>
+                <td>
+                  <div class="d-flex flex-row">
+                    <button
+                      mat-mini-fab
+                      color="primary"
+                      (click)="addQuentity(cartPro?.id, cartPro?.products)"
+                    >
+                      <mat-icon>add</mat-icon>
+                    </button>
+
+                    <h5 class="mx-2 mt-2">{{ cartPro?.products?.quentity }}</h5>
+                    <button
+                      mat-mini-fab
+                      color="primary"
+                      (click)="rmQuentity(cartPro?.id, cartPro?.products)"
+                    >
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    matTooltip="Delete"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    (click)="sendCartId(cartPro?.id)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td class="fw-bold text-danger" colspan="3">Total Amount</td>
+                <td>
+                  {{ totalPrice | currency : "INR" : "symbol" }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    <span
+                      ><fa-icon [icon]="triangle"></fa-icon> Remove Item
+                    </span>
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body fw-bold">
+                  Are you sure you want to remove this item?
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancle
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-dismiss="modal"
+                    (click)="removeCart()"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex justify-content-end">
+            <button
+              mat-raised-button
+              color="warn"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal2"
+              (click)="fetchData()"
+              class="mat-button-lg"
+            >
+              PLACE ORDER
+            </button>
+            <!-- <button
+              class="btn btn-lg btn-warning text-white"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal2"
+              (click)="fetchData()"
+            >
+              PLACE ORDER
+            </button> -->
+          </div>
+        </div>
+        <div
+          class="modal fade"
+          id="exampleModal2"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  Cart Item Details
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="frmOrder">
+                  <div>
+                    <label for="recipient-name" class="col-form-label"
+                      >Name</label
+                    >
+                    <mat-form-field class="col-lg-12">
+                      <input
+                        matInput
+                        type="text"
+                        formControlName="displayName"
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <label for="recipient-name" class="col-form-label"
+                      >Email</label
+                    >
+                    <mat-form-field class="col-lg-12">
+                      <input
+                        type="email"
+                        matInput
+                        formControlName="email"
+                        readonly
+                      />
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <label for="recipient-name" class="col-form-label"
+                      >Phone</label
+                    >
+                    <mat-form-field class="col-lg-12">
+                      <input
+                        type="number"
+                        matInput
+                        formControlName="phone"
+                        maxlength="10"
+                        #postalCode
+                      />
+                      <mat-hint align="end"
+                        >{{ postalCode.value.length }} / 10</mat-hint
+                      >
+                    </mat-form-field>
+                  </div>
+                  <div>
+                    <label for="message-text" class="col-form-label"
+                      >Address:</label
+                    >
+                    <mat-form-field class="col-lg-12">
+                      <textarea matInput formControlName="address"></textarea>
+                    </mat-form-field>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                  (click)="addOrder()"
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="card mt-4">
+        <div class="card-header fw-bold">Product Details</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-8">Price</div>
+            <div class="col-lg-4 mb-2">
+              {{ totalPrice | currency : "INR" : "symbol" }}
+            </div>
+            <hr />
+            <div class="col-lg-8">Delivery Charges</div>
+            <div class="col-lg-4 text-success">Free</div>
+          </div>
+        </div>
+        <div class="card-footer fw-bold">
+          <div class="row">
+            <div class="col-lg-8">Total Amount</div>
+            <div class="col-lg-4">
+              {{ totalPrice | currency : "INR" : "symbol" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

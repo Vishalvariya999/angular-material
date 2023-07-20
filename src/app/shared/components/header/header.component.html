@@ -1,0 +1,77 @@
+<nav class="navbar navbar-expand-lg bg-primary">
+  <div class="container-fluid">
+    <img
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxB08bIxC5y3y-rvi_Y_jjhRZZ1EDb2oj3-8INKIxBll55W_IXVbaY5VwxO8cXIuOAHw&usqp=CAU"
+      alt="logo"
+      height="70px"
+      style="border-radius: 50%; padding: 10px"
+    />
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item" *ngFor="let data of navbar">
+          <a
+            class="nav-link fw-bold fs-5 text-white mx-1"
+            aria-current="page"
+            [routerLink]="data.link"
+            >{{ data.data }}</a
+          >
+        </li>
+      </ul>
+      <a
+        class="text-white position-relative mx-2"
+        style="cursor: pointer"
+        (click)="gotoCart()"
+        *ngIf="cartIcon"
+      >
+        <fa-icon class="fs-1" [icon]="cart"></fa-icon>
+        <span
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+        >
+          {{ product?.length }}
+        </span>
+      </a>
+
+      <div class="dropdown">
+        <button
+          class="btn text-white dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <img
+            [src]="profile_image"
+            alt="image"
+            height="70px"
+            style="border-radius: 50%; padding: 10px; cursor: pointer"
+          />
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a
+              class="dropdown-item cursor"
+              *ngIf="profileIcon"
+              (click)="gotoProfile()"
+              >My Profile</a
+            >
+          </li>
+          <li>
+            <a class="dropdown-item cursor" (click)="onLogout()">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+<router-outlet></router-outlet>

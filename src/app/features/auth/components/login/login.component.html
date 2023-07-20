@@ -1,0 +1,121 @@
+<section class="h-100 gradient-form" style="background-color: #eee">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-xl-10">
+        <div class="card rounded-3 text-black">
+          <div class="row g-0">
+            <div class="col-lg-6">
+              <div class="card-body p-md-5 mx-md-4">
+                <div class="text-center">
+                  <img
+                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                    style="width: 185px"
+                    alt="logo"
+                  />
+                  <h2 class="mt-1 mb-3">Login here!</h2>
+                  <hr />
+                </div>
+                <form class="row" [formGroup]="loginForm">
+                  <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input
+                      type="email"
+                      matInput
+                      formControlName="email"
+                      placeholder="Enter email address"
+                    />
+                    <mat-error
+                      *ngIf="
+                        (frmControl['email'].touched &&
+                          frmControl['email'].errors &&
+                          frmControl['email'].errors['pattern']) ||
+                        (frmControl['email'].touched &&
+                          frmControl['email'].pristine) ||
+                        (isSubmited &&
+                          frmControl['email'].pristine &&
+                          frmControl['email'].invalid)
+                      "
+                      >Enter valid email address
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="mt-3">
+                    <mat-label>Password</mat-label>
+                    <input
+                      [type]="hide ? 'password' : 'text'"
+                      matInput
+                      formControlName="password"
+                      placeholder="Enter valid password"
+                    />
+                    <button
+                      mat-icon-button
+                      matSuffix
+                      (click)="hide = !hide"
+                      [attr.aria-label]="'Hide password'"
+                      [attr.aria-pressed]="hide"
+                    >
+                      <mat-icon>{{
+                        hide ? "visibility_off" : "visibility"
+                      }}</mat-icon>
+                    </button>
+                    <mat-error
+                      *ngIf="
+                        (frmControl['password'].touched &&
+                          frmControl['password'].errors &&
+                          frmControl['password'].errors['pattern']) ||
+                        (frmControl['password'].touched &&
+                          frmControl['password'].pristine) ||
+                        (isSubmited &&
+                          frmControl['password'].pristine &&
+                          frmControl['password'].invalid)
+                      "
+                    >
+                      Enter valid password
+                    </mat-error>
+                  </mat-form-field>
+                  <div class="text-center mt-2 pt-1">
+                    <button
+                      class="w-100 mat-button-lg"
+                      mat-raised-button
+                      color="primary"
+                      (click)="onLogin()"
+                    >
+                      Login
+                    </button>
+                  </div>
+                  <div class="mt-2 mb-3">
+                    <button
+                      type="button"
+                      (click)="googleAuth()"
+                      class="btn btn-lg w-100 mt-2 login-with-google-btn"
+                    >
+                      Sign in with Google
+                    </button>
+                  </div>
+                  <div
+                    class="d-flex align-items-center justify-content-center pb-4 fw-bold"
+                  >
+                    <p class="mb-0 me-2">Don't have an account?</p>
+                    <a
+                      [routerLink]="'/auth/signup'"
+                      class="text-decoration-none text-danger"
+                      >Create new</a
+                    >
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-lg-6 d-flex align-items-center">
+              <img
+                class="p-3"
+                src="assets/images/loginImg.jpg"
+                alt="photo"
+                width="100%"
+                height="100%"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

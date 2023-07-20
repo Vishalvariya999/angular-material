@@ -1,0 +1,254 @@
+<div class="container-fluid">
+  <div class="mt-1 mb-2">
+    <div class="d-flex flex-row justify-content-center uperContent">
+      <div class="d-flex flex-column mx-2" *ngFor="let img of images">
+        <img [src]="img.img" alt="img" height="100px" width="100px" />
+        <a href="" class="mx-2 text-decoration-none">{{ img.name }}</a>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="mt-2">
+    <div
+      id="carouselExampleDark"
+      class="carousel carousel-dark slide"
+      data-bs-ride="carousel"
+    >
+      <div class="carousel-indicators">
+        <button
+          type="button"
+          data-bs-target="#carouselExampleDark"
+          data-bs-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleDark"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleDark"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+        ></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="10000">
+          <img
+            src="assets/images/14491252_5450575.jpg"
+            class="d-block w-100"
+            style="height: 800px; padding: 50px"
+            alt="img"
+          />
+        </div>
+        <div class="carousel-item" data-bs-interval="2000">
+          <img
+            src="assets/images/8915380_4028484.jpg"
+            class="d-block w-100"
+            style="height: 800px; padding: 50px"
+            alt="img"
+          />
+        </div>
+        <div class="carousel-item">
+          <img
+            src="assets/images/13402997_5157395.jpg"
+            class="d-block w-100"
+            style="height: 800px; padding: 50px"
+            alt="img"
+          />
+        </div>
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleDark"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleDark"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-lg-2">
+      <h2 class="p-1 text-center fw-bold">Filters</h2>
+      <hr />
+      <div class="mt-2">
+        <button mat-raised-button color="primary" (click)="clearFilter()">
+          Clear Filter
+        </button>
+      </div>
+      <hr />
+      <div class="col-lg-12">
+        <p
+          class="border rounded p-2 text-center text-white"
+          style="background-color: skyblue"
+        >
+          Price
+        </p>
+        <hr />
+        <div class="row">
+          <mat-form-field class="col-lg-6">
+            <mat-label>Min Price</mat-label>
+            <mat-select (selectionChange)="selectPrice($event)">
+              <mat-option *ngFor="let price of prices" [value]="price">
+                {{ price | currency : "INR" : "symbol" }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-lg-6">
+            <mat-label>Max Price</mat-label>
+            <mat-select (selectionChange)="selectPrice($event)">
+              <mat-option *ngFor="let price of prices2" [value]="price">
+                {{ price | currency : "INR" : "symbol" }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <hr />
+      <p
+        class="border rounded p-2 text-center text-white"
+        style="background-color: skyblue"
+      >
+        Category
+      </p>
+      <hr />
+      <mat-form-field class="col-lg-12">
+        <mat-label>Select Category</mat-label>
+        <mat-select (selectionChange)="selectItem($event)">
+          <mat-option
+            *ngFor="let prodCategorie of prodCategories"
+            [value]="prodCategorie.name"
+          >
+            {{ prodCategorie.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <hr />
+      <p
+        class="border rounded p-2 text-center text-white"
+        style="background-color: skyblue"
+      >
+        Rating
+      </p>
+      <hr />
+      <mat-form-field class="col-lg-12">
+        <mat-label>Select Rating</mat-label>
+        <mat-select (selectionChange)="sendRating($event)">
+          <mat-option value="1">1 &#9733;</mat-option>
+          <mat-option value="2">2 &#9733; &#9733;</mat-option>
+          <mat-option value="3">3 &#9733; &#9733; &#9733;</mat-option>
+          <mat-option value="4">4 &#9733; &#9733; &#9733; &#9733;</mat-option>
+          <mat-option value="5"
+            >5 &#9733; &#9733; &#9733; &#9733; &#9733;</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-10 bg-light">
+      <h3 class="mt-2 p-2 fw-bold">Products :</h3>
+      <!-- <form> -->
+      <mat-form-field class="col-lg-12">
+        <mat-label>Search here</mat-label>
+        <input type="text" matInput [(ngModel)]="searchData" />
+      </mat-form-field>
+      <hr />
+      <div class="d-flex flex-wrap flex-row mx-5">
+        <ng-container *ngIf="products | filterProduct : searchData as data">
+          <mat-card
+            class="example-card m-2"
+            *ngFor="let product of data; let i = index"
+          >
+            <img
+              mat-card-image
+              [src]="product.image"
+              alt="img"
+              class="h-75 w-100 mx-auto p-3"
+            />
+            <hr />
+            <mat-card-content>
+              <h3>{{ product.name }}</h3>
+              <p>{{ product.description | description : 100 }}</p>
+            </mat-card-content>
+            <hr />
+            <mat-card-footer>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <span class="fw-bold">Category</span> :
+                  <span class="text-danger"> {{ product.category }}</span>
+                </li>
+                <li class="list-group-item">
+                  <span class="fw-bold">Price</span> :
+                  <span class="text-danger"> &#8377;{{ product.price }}</span>
+                </li>
+                <li class="list-group-item">
+                  <span class="fw-bold">Brand</span> :
+                  <span class="text-danger"> {{ product.brand }}</span>
+                </li>
+              </ul>
+              <hr />
+              <button
+                class="mx-3 mb-3 mat-button-lg"
+                mat-raised-button
+                color="primary"
+                (click)="showDetails(product)"
+              >
+                View Details
+              </button>
+            </mat-card-footer>
+          </mat-card>
+          <div *ngIf="!data.length">
+            <div class="mx-auto">
+              <img
+                src="assets/images/error-no-search-results_2353c5.png"
+                alt="img"
+              />
+            </div>
+            <h4 class="mx-auto">Sorry, no results found!</h4>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="mt-3">
+    <h2 class="h2 text-center fw-bold">Products Discount</h2>
+    <hr />
+    <div class="d-flex flex-wrap flex-row p-5">
+      <div class="col-lg-4">
+        <img
+          src="assets/images/2453837_327229-P9WY1D-733.jpg"
+          alt="img1"
+          height="500px"
+        />
+      </div>
+      <div class="col-lg-4">
+        <img src="assets/images/6055086_57615.jpg" alt="img2" height="500px" />
+      </div>
+      <div class="col-lg-4">
+        <img
+          src="assets/images/19567912_MySep4.jpg"
+          alt="img3"
+          height="500px"
+          width="80%"
+        />
+      </div>
+    </div>
+  </div>
+  <hr />
+</div>

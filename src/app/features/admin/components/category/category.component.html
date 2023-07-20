@@ -1,0 +1,173 @@
+<div class="container-fluid p-5">
+  <div class="row border rounded p-4">
+    <div class="col-lg-6">
+      <form class="row g-3" [formGroup]="frmCategories">
+        <h2 class="h2 text-center border p-2 rounded" *ngIf="!edit">
+          Add Category
+        </h2>
+        <h2 class="text-center" *ngIf="edit">Edit Category</h2>
+        <mat-form-field class="col-lg-12">
+          <mat-label>Name</mat-label>
+          <input type="text" matInput formControlName="name" />
+          <mat-error
+            *ngIf="
+              (frmControl['name'].touched &&
+                frmControl['name'].errors &&
+                frmControl['name'].errors['pattern']) ||
+              (frmControl['name'].touched && frmControl['name'].pristine) ||
+              (isSubmited &&
+                frmControl['name'].pristine &&
+                frmControl['name'].invalid)
+            "
+            >Enter valid Category</mat-error
+          >
+        </mat-form-field>
+        <div class="col-lg-12">
+          <button
+            mat-raised-button
+            color="primary"
+            class="mat-button-lg"
+            (click)="addCategory()"
+          >
+            {{ btnName }}
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-lg-6">
+      <h2 class="h2 border p-2 text-center rounded">Category List</h2>
+      <!-- <div style="width: 100%; overflow: auto; max-height: 535px"> -->
+      <mat-form-field class="col-lg-12">
+        <mat-label>Search here</mat-label>
+        <input type="text" matInput (keyup)="searchProducts($event)" />
+      </mat-form-field>
+      <div>
+        <table mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="id">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              class="bg-dark text-white sticky-top"
+            >
+              Id
+            </th>
+            <td mat-cell *matCellDef="let element; let i = index">
+              {{ i + 1 }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              class="bg-dark text-white sticky-top"
+            >
+              Name
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+          <ng-container matColumnDef="date">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              class="bg-dark text-white sticky-top"
+            >
+              Date
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.dateTime | date : "medium" }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="Oprations">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              class="bg-dark text-white sticky-top"
+            >
+              Oprations
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                mat-icon-button
+                matTooltip="Edit"
+                class="text-success"
+                (click)="editMode(element)"
+              >
+                <mat-icon>create</mat-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                matTooltip="Delete"
+                class="text-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                (click)="sendId(element.id)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <table>
+          <tr *ngIf="!prodCategories?.length">
+            <td class="text-danger text-center">No Category Found</td>
+          </tr>
+        </table>
+        <mat-paginator
+          #paginator
+          pageSize="7"
+          [pageSizeOptions]="[7, 10, 20]"
+          showFirstLastButtons
+        >
+        </mat-paginator>
+      </div>
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                <span class="text-danger"
+                  ><fa-icon [icon]="triangle"></fa-icon> Confirm
+                </span>
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body text-danger fw-bold">
+              Are you sure delete recored ?
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                No
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="deleteProductCategory()"
+                data-bs-dismiss="modal"
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
